@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Wikipedia Speedrun", page_icon="📚", layout="wide")
+st.set_page_config(page_title="Wikipedia Speedrun Leaderboard", page_icon="🏆", layout="wide")
 
 def add_to_leaderboard():
     if st.session_state.name == "":

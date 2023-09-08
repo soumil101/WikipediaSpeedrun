@@ -10,6 +10,8 @@ import pandas as pd
 # Define the filename for the leaderboard CSV file
 LEADERBOARD_FILENAME = "leaderboard.csv"
 
+st.set_page_config(page_title="Wikipedia Speedrun", page_icon="📚")
+
 # Function to capture a screenshot of a Wikipedia page
 def capture_page_screenshot(title):
     options = Options()
