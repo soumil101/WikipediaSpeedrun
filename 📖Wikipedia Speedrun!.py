@@ -2,6 +2,7 @@ import streamlit as st
 import wikipedia
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from pathlib import Path
 from PIL import Image
 from io import BytesIO
 from wikipedia.exceptions import DisambiguationError
@@ -10,7 +11,13 @@ import pandas as pd
 # Define the filename for the leaderboard CSV file
 LEADERBOARD_FILENAME = "leaderboard.csv"
 
+current_dir = Path(__file__).parent
+css_file = current_dir / "styles" / "styles.css"
+
 st.set_page_config(page_title="Wikipedia Speedrun", page_icon="📚")
+
+with open(css_file) as f:
+    st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
 # Function to capture a screenshot of a Wikipedia page
 def capture_page_screenshot(title):
@@ -73,33 +80,34 @@ st.markdown("<left><p>Welcome to Wikipedia Speedrun! Begin by pressing the Gener
 
 # Button to generate random Wikipedia pages, capture screenshots, and generate summaries
 if st.button("Generate!"):
-    # Initialize variables to hold page titles and URLs
-    page_titles, page_urls = generate_random_pages()
+    with st.spinner("Generating random Wikipedia pages..."):
+        # Initialize variables to hold page titles and URLs
+        page_titles, page_urls = generate_random_pages()
 
-    # Create two columns for displaying the pages side by side
-    col1, col2 = st.columns(2)
+        # Create two columns for displaying the pages side by side
+        col1, col2 = st.columns(2)
 
-    # Fetch and display the Wikipedia pages along with screenshots and summaries
-    for i, title in enumerate(page_titles):
-        page_url = wikipedia.page(title).url
+        # Fetch and display the Wikipedia pages along with screenshots and summaries
+        for i, title in enumerate(page_titles):
+            page_url = wikipedia.page(title).url
 
-        # Capture a screenshot of the page
-        screenshot = capture_page_screenshot(title)
+            # Capture a screenshot of the page
+            screenshot = capture_page_screenshot(title)
 
-        # Generate a summary of the page
-        summary = generate_summary(title)
+            # Generate a summary of the page
+            summary = generate_summary(title)
 
-        # Display the screenshot if available, or a placeholder
-        if screenshot:
+            # Display the screenshot if available, or a placeholder
+            if screenshot:
+                with col1 if i % 2 == 0 else col2:
+                    st.image(screenshot, use_column_width=True)
+            else:
+                st.warning("Failed to capture the page screenshot.")
+
+            # Display the page title as a link
             with col1 if i % 2 == 0 else col2:
-                st.image(screenshot, use_column_width=True)
-        else:
-            st.warning("Failed to capture the page screenshot.")
-
-        # Display the page title as a link
-        with col1 if i % 2 == 0 else col2:
-            st.subheader(f"[{title}]({page_url})")
-            st.write(summary)
+                st.subheader(f"[{title}]({page_url})")
+                st.write(summary)
 
     with st.expander("Add Entry to Leaderboard"):
         with st.form("leaderboard_form"):
