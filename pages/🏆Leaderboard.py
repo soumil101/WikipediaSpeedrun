@@ -1,7 +1,15 @@
 import streamlit as st
+from pathlib import Path
 import pandas as pd
 
+
+current_dir = Path(__file__).parent.parent
+css_file = current_dir / "styles" / "styles.css"
+
 st.set_page_config(page_title="Wikipedia Speedrun Leaderboard", page_icon="🏆", layout="wide")
+
+with open(css_file) as f:
+    st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
 def add_to_leaderboard():
     if st.session_state.name == "":

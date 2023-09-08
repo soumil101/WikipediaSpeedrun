@@ -8,10 +8,13 @@ import openai
 from wikipedia.exceptions import DisambiguationError
 import pandas as pd
 
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 # Set your OpenAI API key here
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Initialize session state
 if 'leaderboard' not in st.session_state:
