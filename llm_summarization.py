@@ -6,11 +6,16 @@ from PIL import Image
 from io import BytesIO
 import openai
 from wikipedia.exceptions import DisambiguationError
+import pandas as pd
 
 import os
 
 # Set your OpenAI API key here
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+# Initialize session state
+if 'leaderboard' not in st.session_state:
+    st.session_state.leaderboard = []
 
 # Function to capture a screenshot of a Wikipedia page
 def capture_page_screenshot(title):
@@ -101,5 +106,18 @@ if st.button("Generate Random Pages, Capture Screenshots, and Generate Summaries
             st.subheader(f"[{title}]({page_url})")
             st.write(summary)
 
-# Add a footer
-st.text("Powered by Wikipedia, Selenium, and OpenAI GPT-3")
+    # Conditional block to show the expander after generating the Wikipedia pages
+    with st.expander("Add Entry to Leaderboard"):
+        name = st.text_input("Name")
+        start_page = st.text_input(label="Starting Page", value=page_urls[0])
+        end_page = st.text_input(label="Starting Page", value=page_urls[1])
+        time = st.number_input("Time (in seconds)")
+
+        if st.button("Add to Leaderboard"):
+            if name and start_page and end_page and time:
+                st.session_state.leaderboard.append({"Name": name, "Start Page Link": start_page, "End Page Link": end_page, "Time (s)": time})
+
+# Display the leaderboard
+st.title("Leaderboard")
+leaderboard_df = pd.DataFrame(st.session_state.leaderboard)
+st.dataframe(leaderboard_df)
