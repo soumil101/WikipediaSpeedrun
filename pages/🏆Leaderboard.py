@@ -25,7 +25,7 @@ def add_to_leaderboard():
     new_df.to_csv("leaderboard.csv", mode='a', index=False, header=False)
 
 # Main content
-st.markdown("<center><h1>Leaderboard</h1></center>", unsafe_allow_html=True)
+st.markdown("<center><h1 style='color: #E77D8F; font-family: sans-serif;'>Leaderboard</h1></center>", unsafe_allow_html=True)
 st.markdown("<center><p>Welcome to the Leaderboard <br> Columns in the table can be sorted by clicking the header. <br> Best of luck and no Lying/Cheating!</p></center>", unsafe_allow_html=True)
 
 with st.expander("Add Your Own Entry!"):
