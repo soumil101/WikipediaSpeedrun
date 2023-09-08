@@ -74,8 +74,9 @@ def add_to_leaderboard():
 
 
 # Main content
-st.markdown("<left><h1>Wikipedia Speedrun!</h1></left>", unsafe_allow_html=True)
+st.markdown("<left><h1 style='color: #E77D8F; font-family: cursive;'>Wikipedia Speedrun!</h1></left>", unsafe_allow_html=True)
 st.markdown("<left><p>Welcome to Wikipedia Speedrun! Begin by pressing the Generate! button below. You'll then see 2 wikiepedia pages pop up. The goal is to get from one page to the other using only links within the wikipedia pages for traversal. No command F'ing! And the only context you get about each page are the summaries that are generated as well. Optionally, if you like, you can add your speedrun to our Leaderboard! If you're feeling competitive, browse the leaderboards and try to beat someone else's time on their page route! </p></left>", unsafe_allow_html=True)
+st.markdown("<left><p style='color: gray; font-size: small;'>If there are any errors, just regenerate. Proper error handling will come later</p></left>", unsafe_allow_html=True)
 
 
 # Button to generate random Wikipedia pages, capture screenshots, and generate summaries
